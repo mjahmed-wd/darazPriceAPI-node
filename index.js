@@ -1,8 +1,14 @@
 const superagent =  require('superagent');
 const express =  require('express');
-const cors =  require('cors');
+const cors = require('cors');
+const cron = require('node-cron');
+
 const app = express();
 app.use(cors());
+
+cron.schedule('*/2 * * * * * ', () => {
+    console.log('running a task every 2 second');
+  });
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
