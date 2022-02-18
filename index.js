@@ -1,6 +1,6 @@
-import superagent from 'superagent';
-import express from 'express';
-import cors from 'cors';
+const superagent =  require('superagent');
+const express =  require('express');
+const cors =  require('cors');
 const app = express();
 app.use(cors());
 
