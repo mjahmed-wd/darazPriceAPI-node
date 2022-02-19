@@ -10,19 +10,23 @@ async function searchProduct(req, res, next) {
 
     const name_search_regex = new RegExp(escape(searchQuery), "i");
 
+    // res.json({
+    //     reqData: searchQuery
+    // })
+
     try {
         if (searchQuery !== "") {
-            const products = await Product.find(
+            const products = await Product.findOne(
                 {
                     $or: [
                         {
-                            name: name_search_regex,
+                            name: searchQuery,
                         },
                         {
-                            sku: name_search_regex,
+                            sku: searchQuery,
                         },
                         {
-                            url: name_search_regex,
+                            url: searchQuery,
                         },
                     ],
                 },

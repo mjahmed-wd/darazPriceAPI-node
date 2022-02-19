@@ -31,6 +31,9 @@ const productSchema = mongoose.Schema(
         countryCode: {
             type: String,
         },
+        url: {
+            type: String,
+        },
         category: {
             type: Array,
         },
