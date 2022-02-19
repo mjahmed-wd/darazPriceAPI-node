@@ -5,9 +5,15 @@ const productRouter = require("./router/productRouter.js");
 const cron = require('node-cron');
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const router = express.Router();
 
 const app = express();
 dotenv.config();
+
+// request parser
+app.use(cors());
+app.use(express.json());
+
 
 mongoose
   .connect(process.env.MONGO_CONNECTION_STRING, {
@@ -17,9 +23,6 @@ mongoose
   .then(() => console.log("connection successful!"))
     .catch((err) => console.log(err));
   
-// request parser
-app.use(cors());
-app.use(express.json());
 
 // cron.schedule('*/10 * * * * * ', () => {
 //     ["pu-i190005767-s1137519941.html", "i199677125-s1146833359.html", "pu-i211024792-s1160899536.html", "bogesi-i215889192-s1164326843.html"].forEach(productId =>
@@ -54,4 +57,4 @@ app.get("/", (req, res) => {
 
 app.get("/bd/:productId", productRouter)
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 8000);
