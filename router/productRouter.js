@@ -4,7 +4,7 @@ const {searchProduct, addProduct} = require("./../controller/productController.j
 
 const router = express.Router();
 
-router.get("/bd/:productId", searchProduct)
+router.get("/bd/:productId", addProduct);
 // router.get("/add", addProduct)
 // router.get("/bd/:productId", (req, res) => {
 //     const { productId } = req.params;

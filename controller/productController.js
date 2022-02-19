@@ -1,7 +1,9 @@
 // external imports
 const createError = require("http-errors");
+const superagent = require("superagent");
 // internal imports
 const Product = require("../models/product.js");
+const CronItem = require("../models/cronItem.js");
 const escape = require("../utilities/escape");
 
 // search user
@@ -47,37 +49,38 @@ async function searchProduct(req, res, next) {
 }
 
 async function addProduct(req, res, next) {
-
-    const data = {
-        name: "TM Shop For Precision Knife With 6 Blades (Aluminium Body)",
-        seller: "TM Shop",
-        price: "220",
-        currencyCode: "BDT",
-        image: "https://static-01.daraz.com.bd/p/mdc/e9e3fe0c3e2054919ed4b5c870474389.jpg",
-        category: [
-            "Stationery u0026 Craft",
-            "School u0026 Office Equipment",
-            "Scissors u0026 Cutters"
-        ],
-        discount: "-41%",
-        sku: 1097972599,
-        countryCode: "BD"
-    }
-
+    const { productId } = req.params;
+    let product = {};
     try {
-        const newProduct = new Product(data);
-        const result = await newProduct.save();
-        res.status(200).json({
-            message: result?.name + " added successfully!",
-        });
+        const response = await superagent.get(`https://www.daraz.com.bd/products/${productId}`);
+
+        const matchingData = response?.text?.match("var pdpTrackingData = (\"{.*}\")")
+        const productStringData = (matchingData["0"].match("(\"{.*}\")")["0"]).replace(/\\/g, '');
+        const data = JSON.parse(productStringData.substring(1, productStringData.length - 1));
+        const productURL = `${(productId.match("(.*).html")[1])}.html`
+
+        product['name'] = data['pdt_name']
+        product['seller'] = data['seller_name']
+        product['price'] = data['pdt_price'].split(' ')[1]
+        product['currencyCode'] = data['core']['currencyCode']
+        product['image'] = data['pdt_photo']
+        product['category'] = data['pdt_category']
+        product['discount'] = data['pdt_discount']
+        product['sku'] = data['pdt_simplesku']
+        product['countryCode'] = data['core']['country']
+        product['priceList'] = { date: new Date(), price: product['price'] }
+        // res.json(product);
+
+
+        const newProduct = new Product(product);
+        const newCronItem = new CronItem({ name: product['name'], price: product['price'] });
+        // const result = await newProduct.save();
+        // const savedCronItem = await newCronItem.save();
+        const result = await Product.findOneAndUpdate({ sku: product.sku }, newProduct, { upsert: true, new: true, setDefaultsOnInsert: true });
+        const savedCronItem = await CronItem.findOneAndUpdate({url: productURL},{ name: product['name'], url: productURL },{ upsert: true, new: true, setDefaultsOnInsert: true });
+        res.status(200).json(newProduct);
     } catch (err) {
-        res.status(500).json({
-            errors: {
-                common: {
-                    msg: err.message,
-                },
-            },
-        });
+        res.json({ ...product, message: err.message });
     }
 }
 

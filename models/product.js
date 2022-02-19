@@ -33,6 +33,7 @@ const productSchema = mongoose.Schema(
         },
         url: {
             type: String,
+            index: true
         },
         category: {
             type: Array,
