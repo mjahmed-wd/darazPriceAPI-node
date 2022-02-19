@@ -31,20 +31,15 @@ const cronJob = () => cron.schedule('*/10 * * * * * ', () => {
                         product['sku'] = data['pdt_simplesku']
                         product['countryCode'] = data['core']['country']
                         product['url'] = productURL
-                        // return await console.log(product);
-                        try {
-                            // const newProduct = new Product(product);
-                            // const result = await newProduct.save();
-                            const result = await Product.findOneAndUpdate({ sku: product.sku }, { $push: { priceList: { date: new Date(), price: product.price } } }, (error, success) => {
-                                console.log(error ? error : success);
-                            });
-                            // res.status(200).json({
-                            //     message: result?.name + " added successfully!",
-                            // });
-                            console.log(result);
-                        } catch (err) {
-                            console.log("eror happend", err);
-                        }
+                        // const newProduct = new Product(product);
+                        // const result = await newProduct.save();
+                        const result = await Product.findOneAndUpdate({ sku: product.sku }, { $push: { priceList: { date: new Date(), price: product.price } } }, (error, success) => {
+                            console.log(error ? error : success);
+                        });
+                        // res.status(200).json({
+                        //     message: result?.name + " added successfully!",
+                        // });
+                        console.log(result);
 
                     } catch (err) {
                         console.log(err.message); //can be console.error
