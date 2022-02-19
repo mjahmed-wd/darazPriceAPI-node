@@ -1,6 +1,6 @@
 const sgMail = require('@sendgrid/mail')
+require('dotenv').config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-
 
 const msg = {
     to: 'mjahmedwd@gmail.com', // Change to your recipient
@@ -9,8 +9,16 @@ const msg = {
     text: 'Check the product that you wanted to buy from daraz.com.bd',
     html: '<strong>Price is now below 100</strong>',
 }
-const sendMail = () => sgMail
-    .send(msg)
+
+const sendEmail = ({
+    name= "",
+    to = 'mjahmedwd@gmail.com',
+    from = 'mjahmed555@gmail.com',
+    subject = 'Price is dropped at your desired product',
+    text = 'Check the product that you wanted to buy from daraz.com.bd',
+    html = '<strong>Price is now below 100</strong>',
+}) => sgMail
+    .send({ to, from, subject: `Price is dropped at ${name}`, text, html })
     .then(() => {
         console.log('Email sent')
     })
@@ -19,5 +27,5 @@ const sendMail = () => sgMail
     })
 
 module.exports = {
-    sendMail
+    sendEmail
 }

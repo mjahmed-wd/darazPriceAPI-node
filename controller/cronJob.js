@@ -3,13 +3,15 @@ const superagent = require('superagent');
 const Product = require("./../models/product.js");
 const CronItem = require("./../models/cronItem.js");
 
+const { sendEmail } = require('./sendEmail')
+
 
 const cronJob = () => cron.schedule('*/10 * * * * * ', () => {
     let cronItems;
     (async () => {
         cronItems = await CronItem.find({}).select('url -_id').lean();
         if (cronItems) {
-            console.log({ cronItems });
+            // console.log({ cronItems });
             cronItems?.forEach(cronItem =>
                 (async () => {
                     try {
@@ -33,13 +35,16 @@ const cronJob = () => cron.schedule('*/10 * * * * * ', () => {
                         product['url'] = productURL
                         // const newProduct = new Product(product);
                         // const result = await newProduct.save();
+                        if (+product.price < 200) {
+                            console.log(product.price + "price below 100");
+                            sendEmail({name: product.name})
+                        } else {
+                            console.log(product.price + "price above 100");
+                        }
                         const result = await Product.findOneAndUpdate({ sku: product.sku }, { $push: { priceList: { date: new Date(), price: product.price } } }, (error, success) => {
-                            console.log(error ? error : success);
+                            // console.log(error ? error : success);
                         });
-                        // res.status(200).json({
-                        //     message: result?.name + " added successfully!",
-                        // });
-                        console.log(result);
+                        
 
                     } catch (err) {
                         console.log(err.message); //can be console.error

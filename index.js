@@ -21,10 +21,8 @@ mongoose
     .then(() => console.log("connection successful!"))
     .catch((err) => console.log(err));
 
-// cronJob();
+cronJob();
 
-// const url = "https://www.daraz.com.bd/products/bogesi-i215889192-s1164326843.html"
-// console.log(url.match("products/(.*).html")[1])
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
