@@ -20,13 +20,13 @@ async function searchProduct(req, res, next) {
                 {
                     $or: [
                         {
-                            name: searchQuery,
+                            name: name_search_regex,
                         },
                         {
-                            sku: searchQuery,
+                            sku: name_search_regex,
                         },
                         {
-                            url: searchQuery,
+                            url: name_search_regex,
                         },
                     ],
                 },
