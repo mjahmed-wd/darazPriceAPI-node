@@ -1,10 +1,11 @@
 const express = require("express");
 const superagent = require("superagent");
-const {searchProduct} = require("./../controller/productController.js");
+const {searchProduct, addProduct} = require("./../controller/productController.js");
 
 const router = express.Router();
 
 router.get("/bd/:productId", searchProduct)
+// router.get("/add", addProduct)
 // router.get("/bd/:productId", (req, res) => {
 //     const { productId } = req.params;
 

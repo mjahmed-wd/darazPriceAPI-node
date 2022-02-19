@@ -12,11 +12,11 @@ const productSchema = mongoose.Schema(
             required: true,
         },
         price: {
-            type: Number,
+            type: String,
             required: true,
         },
         discount: {
-            type: Number,
+            type: String,
             required: true,
         },
         currencyCode: {
@@ -37,6 +37,9 @@ const productSchema = mongoose.Schema(
         category: {
             type: Array,
         },
+        priceList: [
+            { date: String, price: String }
+        ],
     },
 );
 
