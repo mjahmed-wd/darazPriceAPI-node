@@ -12,7 +12,6 @@ const subscriberSchema = mongoose.Schema(
             required: true,
             trim: true,
             index: true,
-            unique: true
         },
         userMobile: {
             type: String,

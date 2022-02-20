@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const app = express();
 const productRouter = require("./router/productRouter.js");
+const { addSubscriber } = require("./controller/subscriberController.js");
 const cronJob = require("./controller/cronJob");
 dotenv.config();
 
@@ -21,7 +22,7 @@ mongoose
     .then(() => console.log("connection successful!"))
     .catch((err) => console.log(err));
 
-cronJob();
+// cronJob();
 
 
 app.get("/", (req, res) => {
@@ -30,5 +31,6 @@ app.get("/", (req, res) => {
 
 app.get("/bd/:productId", productRouter)
 // app.get("/add", productRouter)
+app.post("/addSubscription", addSubscriber)
 
 app.listen(process.env.PORT || 8000);
