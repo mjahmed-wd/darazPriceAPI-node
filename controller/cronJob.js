@@ -41,7 +41,7 @@ const cronJob = () => cron.schedule('*/10 * * * * * ', () => {
                         if (subscriberList?.length > 0) {
                             // search those who has subscribed to this product & alert amount is lower than current price
                             const emailList = subscriberList.map(subscriber => subscriber.userEmail);
-                            sendMessage({ to: emailList, productInfo })
+                            sendMessage({ to: emailList, productInfo: product });
                         } else {
                             console.log('No subscribers found');
                         }

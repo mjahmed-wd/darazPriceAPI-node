@@ -18,7 +18,7 @@ const sendMessage = ({
     text = 'Check the product that you wanted to buy from daraz.com.bd',
     html = '<strong>Price is now below 100</strong>',
 }) => sgMail
-    .sendMultiple({ to, from, subject: `Price is dropped at ${productInfo?.name}`, text, html: `<strong>Price is now below ${product?.price}, go grab now!</strong>` })
+    .sendMultiple({ to, from, subject: `Price is dropped at ${productInfo?.name}`, text, html: `<strong>Price is now below ${productInfo?.price}, go grab now!</strong>` })
     .then(() => {
         console.log('Email sent')
     })
