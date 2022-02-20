@@ -21,7 +21,7 @@ mongoose
     .then(() => console.log("connection successful!"))
     .catch((err) => console.log(err));
 
-cronJob();
+// cronJob();
 
 
 app.get("/", (req, res) => {

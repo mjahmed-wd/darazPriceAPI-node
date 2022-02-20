@@ -36,15 +36,17 @@ const cronJob = () => cron.schedule('*/10 * * * * * ', () => {
                         // const newProduct = new Product(product);
                         // const result = await newProduct.save();
                         if (+product.price < 200) {
+                            // search those who has subscribed to this product & alert amount is lower than current price
+
                             console.log(product.price + "price below 100");
-                            sendEmail({name: product.name})
+                            sendEmail({ name: product.name })
                         } else {
                             console.log(product.price + "price above 100");
                         }
                         const result = await Product.findOneAndUpdate({ sku: product.sku }, { $push: { priceList: { date: new Date(), price: product.price } } }, (error, success) => {
                             // console.log(error ? error : success);
                         });
-                        
+
 
                     } catch (err) {
                         console.log(err.message); //can be console.error

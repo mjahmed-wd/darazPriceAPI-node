@@ -80,7 +80,7 @@ async function addProduct(req, res, next) {
         const savedCronItem = await CronItem.findOneAndUpdate({url: productURL},{ name: product['name'], url: productURL },{ upsert: true, new: true, setDefaultsOnInsert: true });
         res.status(200).json(newProduct);
     } catch (err) {
-        res.json({ ...product, message: err.message });
+        res.json({ ...product, message: "Price history is available in our API" });
     }
 }
 
