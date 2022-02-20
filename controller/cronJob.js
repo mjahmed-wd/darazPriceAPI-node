@@ -4,7 +4,7 @@ const Product = require("./../models/product.js");
 const CronItem = require("./../models/cronItem.js");
 const Subscriber = require("./../models/subscriber.js");
 
-const { sendEmail } = require('./sendEmail')
+const { sendMessage } = require('./sendEmail')
 
 
 const cronJob = () => cron.schedule('*/10 * * * * * ', () => {
@@ -41,7 +41,7 @@ const cronJob = () => cron.schedule('*/10 * * * * * ', () => {
                         if (subscriberList?.length > 0) {
                             // search those who has subscribed to this product & alert amount is lower than current price
                             const emailList = subscriberList.map(subscriber => subscriber.userEmail);
-                            sendEmail({ to: emailList, productInfo })
+                            sendMessage({ to: emailList, productInfo })
                         } else {
                             console.log('No subscribers found');
                         }

@@ -10,7 +10,7 @@ const msg = {
     html: '<strong>Price is now below 100</strong>',
 }
 
-const sendEmail = ({
+const sendMessage = ({
     productInfo = {},
     to = 'mjahmedwd@gmail.com',
     from = 'mjahmed555@gmail.com',
@@ -27,5 +27,5 @@ const sendEmail = ({
     })
 
 module.exports = {
-    sendEmail
+    sendMessage
 }
