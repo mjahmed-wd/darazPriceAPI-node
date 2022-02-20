@@ -20,7 +20,14 @@ const subscriberSchema = mongoose.Schema(
         productURL: {
             type: String,
             required: true,
-        }
+        },
+        alertPrice: {
+            type: Number
+        },
+        alertType: {
+            type: Array,
+            default: ["email"]
+        },
     },
 );
 

@@ -69,6 +69,7 @@ async function addProduct(req, res, next) {
         product['sku'] = data['pdt_simplesku']
         product['countryCode'] = data['core']['country']
         product['priceList'] = { date: new Date(), price: product['price'] }
+        product['url'] = productURL
         // res.json(product);
 
 

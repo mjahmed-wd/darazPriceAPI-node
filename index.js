@@ -29,6 +29,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/bd/:productId", productRouter)
-app.get("/add", productRouter)
+// app.get("/add", productRouter)
 
 app.listen(process.env.PORT || 8000);

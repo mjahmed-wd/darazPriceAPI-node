@@ -2,6 +2,7 @@ const cron = require('node-cron');
 const superagent = require('superagent');
 const Product = require("./../models/product.js");
 const CronItem = require("./../models/cronItem.js");
+const Subscriber = require("./../models/subscriber.js");
 
 const { sendEmail } = require('./sendEmail')
 
@@ -35,13 +36,14 @@ const cronJob = () => cron.schedule('*/10 * * * * * ', () => {
                         product['url'] = productURL
                         // const newProduct = new Product(product);
                         // const result = await newProduct.save();
-                        if (+product.price < 200) {
-                            // search those who has subscribed to this product & alert amount is lower than current price
+                        const subscriberList = await Subscriber.find({ productURL: product['url'], alertPrice: { $gte: +product.price } }).select('userEmail -_id').lean();
 
-                            console.log(product.price + "price below 100");
-                            sendEmail({ name: product.name })
+                        if (subscriberList?.length > 0) {
+                            // search those who has subscribed to this product & alert amount is lower than current price
+                            const emailList = subscriberList.map(subscriber => subscriber.userEmail);
+                            sendEmail({ to: emailList, productInfo })
                         } else {
-                            console.log(product.price + "price above 100");
+                            console.log('No subscribers found');
                         }
                         const result = await Product.findOneAndUpdate({ sku: product.sku }, { $push: { priceList: { date: new Date(), price: product.price } } }, (error, success) => {
                             // console.log(error ? error : success);

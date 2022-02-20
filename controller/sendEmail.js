@@ -11,14 +11,14 @@ const msg = {
 }
 
 const sendEmail = ({
-    name= "",
+    productInfo = {},
     to = 'mjahmedwd@gmail.com',
     from = 'mjahmed555@gmail.com',
     subject = 'Price is dropped at your desired product',
     text = 'Check the product that you wanted to buy from daraz.com.bd',
     html = '<strong>Price is now below 100</strong>',
 }) => sgMail
-    .send({ to, from, subject: `Price is dropped at ${name}`, text, html })
+    .sendMultiple({ to, from, subject: `Price is dropped at ${productInfo?.name}`, text, html: `<strong>Price is now below ${product?.price}, go grab now!</strong>` })
     .then(() => {
         console.log('Email sent')
     })
